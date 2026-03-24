@@ -8,28 +8,31 @@ import { AccountComponent } from './pages/tabs/account/account.component';
 export const routes: Routes = [
   {
     path: 'tabs',
-    component: TabsComponent
+    component: TabsComponent,
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent
+      },
+      {
+        path: 'search',
+        component: SearchComponent
+      },
+      {
+        path: 'cart',
+        component: CartComponent
+      },
+      {
+        path: 'account',
+        component: AccountComponent
+      }
+    ]
+    
   },
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'tabs/home',
     pathMatch: 'full',
   },
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'search',
-    component: SearchComponent
-  },
-  {
-    path: 'cart',
-    component: CartComponent
-  },
-  {
-    path: 'account',
-    component: AccountComponent
-  }
   
 ];
