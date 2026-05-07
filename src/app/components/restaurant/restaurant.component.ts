@@ -1,0 +1,35 @@
+import { DecimalPipe } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { 
+  IonItem, 
+  IonThumbnail, 
+  IonLabel, 
+  IonText, 
+  IonIcon 
+} from "@ionic/angular/standalone";
+
+@Component({
+  selector: 'app-restaurant',
+  templateUrl: './restaurant.component.html',
+  standalone: true,
+  imports: [ 
+    IonItem, 
+    IonThumbnail, 
+    IonLabel, 
+    IonText, 
+    IonIcon, 
+    IonLabel, 
+    DecimalPipe
+  ],
+  styleUrls: ['./restaurant.component.scss'],
+})
+export class RestaurantComponent  implements OnInit {
+
+  @Input() restaurants:any;
+
+  constructor() { }
+
+
+  ngOnInit() {}
+
+}
