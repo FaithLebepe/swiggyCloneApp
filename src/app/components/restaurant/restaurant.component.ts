@@ -29,6 +29,12 @@ export class RestaurantComponent  implements OnInit {
 
   constructor() { }
 
+  getCuisines(cuisines: string): string {
+    if (cuisines.length > 20) {
+      return cuisines.substring(0, 20) + '...';
+    }
+    return cuisines;
+  }
 
   ngOnInit() {}
 

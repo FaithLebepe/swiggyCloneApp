@@ -8,19 +8,29 @@
 </ion-header>
 
 <ion-content>
+  @if (isLoading) { 
+    <div>
+      <ion-skeleton-text animated style="height: 25vh;"></ion-skeleton-text>
+    </div>
+    <app-loading-restaurant></app-loading-restaurant>
+  }
+  @else {
   
-  <app-banner [bannerImages]="banners"></app-banner>
+    <app-banner [bannerImages]="banners"></app-banner>
 
-  <ion-list>
-    <ion-list-header class="ion-margin-bottom">
-      <ion-label>
-        <h4>Resturants Nearby</h4>
-        <p>Discover unique tastes near you</p>
-      </ion-label>
-    </ion-list-header>
-
-    <app-restaurant [restaurants]="restaurant"></app-restaurant>
-
-  </ion-list>
+    <ion-list>
+      <ion-list-header class="ion-margin-bottom">
+        <ion-label>
+          <h4>Resturants Nearby</h4>
+          <p>Discover unique tastes near you</p>
+        </ion-label>
+      </ion-list-header>
+      @if(restaurant.length > 0){
+        <ion-item-group>
+          <app-restaurant [restaurants]="restaurant"></app-restaurant>
+        </ion-item-group>
+      }
+    </ion-list>
+  }
   
 </ion-content>
