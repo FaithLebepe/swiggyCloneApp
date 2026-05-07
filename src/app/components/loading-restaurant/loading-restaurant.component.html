@@ -1,3 +1,20 @@
-<p>
-  loading-restaurant works!
-</p>
+<ion-list>
+  @for (item of dummy; track $index) {
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
+          <ion-label>
+            <h4>
+              <ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text>
+            </h4>
+            <p>
+              <ion-skeleton-text animated style="width: 60%;"></ion-skeleton-text>
+            </p>
+            <p>
+              <ion-skeleton-text animated style="width: 60%;"></ion-skeleton-text>
+            </p>
+      </ion-label>
+    </ion-item>
+  }
+</ion-list>

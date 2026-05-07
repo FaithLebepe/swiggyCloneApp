@@ -1,4 +1,5 @@
-<ion-row>
+@if (bannerImages.length > 0) {
+  <ion-row>
     <div>
       <swiper-container 
       [modules]="swiperModules"
@@ -15,3 +16,4 @@
       </swiper-container>
     </div>
   </ion-row>
+}

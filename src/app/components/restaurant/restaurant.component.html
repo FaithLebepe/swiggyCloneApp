@@ -1,13 +1,13 @@
 @for(restaurant of restaurants; track $index){
   <ion-item lines="none">
       <ion-thumbnail slot="start">
-        <img [src]="restaurant?.img">
+        <img [src]="restaurant?.cover">
       </ion-thumbnail>
       <ion-label>
         <h4> {{restaurant?.name}} </h4>
         <ion-text color="medium">
           <p class="pStyle">
-            {{restaurant?.food}}
+            {{getCuisines(restaurant?.cuisines.join(', '))}}
           </p>
           <ion-text color="dark">
             <span>
