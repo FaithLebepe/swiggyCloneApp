@@ -50,6 +50,7 @@ export class HomeComponent  implements OnInit {
         {
           cover: 'assets/imgs/1.jpg',
           name: 'Stayfit',
+          short_name: 'stayfit',
           cuisines: [
             'Italian',
             'Mexican'
@@ -64,6 +65,7 @@ export class HomeComponent  implements OnInit {
         {
           cover: 'assets/imgs/2.jpg',
           name: 'Rocomamas',
+          short_name: 'rocomamas',
           cuisines: [
             'Italian',
             'Mexican'
@@ -78,6 +80,7 @@ export class HomeComponent  implements OnInit {
         {
           cover: 'assets/imgs/3.jpg',
           name: 'Rocomamas',
+          short_name: 'rocomamas',
           cuisines: [
             'Italian',
             'Mexican'
