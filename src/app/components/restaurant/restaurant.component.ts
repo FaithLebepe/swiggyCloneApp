@@ -1,5 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { 
   IonItem, 
   IonThumbnail, 
@@ -19,7 +20,8 @@ import {
     IonText, 
     IonIcon, 
     IonLabel, 
-    DecimalPipe
+    DecimalPipe,
+    RouterLink,
   ],
   styleUrls: ['./restaurant.component.scss'],
 })
