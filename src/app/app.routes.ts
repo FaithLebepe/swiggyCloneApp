@@ -4,12 +4,23 @@ import { HomeComponent } from './pages/tabs/home/home.component';
 import { SearchComponent } from './pages/tabs/search/search.component';
 import { CartComponent } from './pages/tabs/cart/cart.component';
 import { AccountComponent } from './pages/tabs/account/account.component';
+import { ItemsComponent } from './pages/tabs/items/items.component';
 
 export const routes: Routes = [
+  { 
+    path: '',
+    redirectTo: 'tabs/home',
+    pathMatch: 'full',
+  },
   {
     path: 'tabs',
     component: TabsComponent,
     children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
       {
         path: 'home',
         component: HomeComponent
@@ -25,14 +36,15 @@ export const routes: Routes = [
       {
         path: 'account',
         component: AccountComponent
-      }
+      },
     ]
-    
   },
   {
-    path: '',
-    redirectTo: 'tabs/home',
-    pathMatch: 'full',
+    path: 'restaurant/:restaurantId',
+    component: ItemsComponent
   },
-  
+  {
+    path: '**',
+    redirectTo: 'tabs/home',
+  },
 ];

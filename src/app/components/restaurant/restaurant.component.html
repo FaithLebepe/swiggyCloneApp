@@ -1,5 +1,7 @@
 @for(restaurant of restaurants; track $index){
-  <ion-item lines="none">
+  <ion-item lines="none"
+  [routerLink]="['/', 'restaurant', restaurant.uid]"
+>
       <ion-thumbnail slot="start">
         <img [src]="restaurant?.cover">
       </ion-thumbnail>
@@ -14,7 +16,7 @@
               <ion-icon name="star"></ion-icon>
               {{restaurant?.rating}} .
             </span>
-            {{restaurant?.time}} mins . R{{restaurant?.price}} for {{restaurant?.quantity}}
+            {{restaurant?.delivery_time}} mins . R{{restaurant?.price}} for {{restaurant?.quantity}}
           </ion-text>
           <ion-text color="tertiary">
             @if(restaurant?.distance && restaurant?.distance != 0 ){

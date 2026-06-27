@@ -40,11 +40,32 @@ ion-title {
     font-weight: bold;
 }
 
-p, ion-note {
-    font-size: 0.9rem !important;
+ion-label, h4 {
+    font-weight: bold !important;
+    font-size: 0.9rem;
 }
 
-ion-label {
-    font-weight: bold;
-    font-size: 0.9rem;
+ion-note, p {
+    font-size: 0.8rem;
+}
+
+h5 {
+    font-size: 0.85rem;
+}
+
+h6 {
+    font-size: 0.82rem;
+}
+
+.borderBottom {
+    border-bottom: 1.5vh solid var(--ion-color-light);
+}
+.borderBottomSmall {
+    border-bottom: 0.1rem solid var(--ion-color-light);
+}
+.dashedBorderBottom {
+    border-bottom: 1px dashed var(--ion-color-medium);
+}
+.alignSpinner {
+    transform: translateY(40vh);
 }
