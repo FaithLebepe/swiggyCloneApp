@@ -78,16 +78,20 @@
                 <ion-label>
                   <h4>{{item?.name}}</h4>
                   <p class="ion-text-wrap">{{item?.desc}}</p>
-                  <ion-text> <p>R{{item?.price}}</p> </ion-text>
+                  <ion-text> <p>R{{item?.price | number: '0.2-2'}}</p> </ion-text>
                 </ion-label>
-                <!-- <ion-row>
-                  <ion-text class="ion-padding-horizontal" color="success">Add</ion-text>
-                </ion-row> -->
-                <ion-row>
-                  <ion-icon color="success" name="remove-outline"></ion-icon>
-                  <ion-text class="ion-text-center quantity" color="success">1</ion-text>
-                  <ion-icon color="success" name="add-outline"></ion-icon>
-                </ion-row>
+                @if(!item.quantity || item.quantity <= 0) {
+                  <ion-row (click)="addToCart(item, $index)">
+                    <ion-text class="ion-padding-horizontal" color="success">Add</ion-text>
+                  </ion-row>
+                }
+                @if(item.quantity && item.quantity > 0) {
+                  <ion-row>
+                    <ion-icon color="success" name="remove-outline" (click)="removeFromCart(item, $index)"></ion-icon>
+                    <ion-text class="ion-text-center quantity" color="success"> {{item?.quantity}} </ion-text>
+                    <ion-icon color="success" name="add-outline" (click)="addToCart(item, $index)"></ion-icon>
+                  </ion-row>
+                }
               </ion-item>
             }
           </ng-container>
@@ -97,17 +101,19 @@
     </div>
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar color="success">
-    <ion-label color=white>
-      <h4>1 Item | R 40.00</h4>
-      <ion-text color="light">
-        <p>Extra charges may apply</p>
-      </ion-text>
-    </ion-label>
-    <ion-button color=white slot="end" fill="clear">
-      <ion-icon slot="end" name="cart-outline"></ion-icon>
-      VIEW CART
-    </ion-button>
-  </ion-toolbar>
-</ion-footer>
+@if(cartData.totalItem > 0) {
+  <ion-footer>
+    <ion-toolbar color="success">
+      <ion-label color=white>
+        <h4> {{cartData.totalItem}} Item@if(cartData.totalItem > 1) {s} | R {{cartData.totalPrice}}</h4>
+        <ion-text color="light">
+          <p>Extra charges may apply</p>
+        </ion-text>
+      </ion-label>
+      <ion-button color=white slot="end" fill="clear" (click)="viewCart()"> 
+        <ion-icon slot="end" name="cart-outline"></ion-icon>
+        VIEW CART
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+}

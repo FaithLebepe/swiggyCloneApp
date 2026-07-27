@@ -16,7 +16,7 @@
               <ion-icon name="star"></ion-icon>
               {{restaurant?.rating}} .
             </span>
-            {{restaurant?.delivery_time}} mins . R{{restaurant?.price}} for {{restaurant?.quantity}}
+            {{restaurant?.delivery_time}} mins . R{{restaurant?.price | number: '0.2-2'}} for {{restaurant?.serving}}
           </ion-text>
           <ion-text color="tertiary">
             @if(restaurant?.distance && restaurant?.distance != 0 ){

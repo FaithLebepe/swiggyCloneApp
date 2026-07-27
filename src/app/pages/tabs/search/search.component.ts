@@ -34,7 +34,7 @@ export class SearchComponent  implements OnInit {
   }
   allRestaurants: any[] = [
         {
-          uid: '1234',
+          uid: '12wefdss',
           cover: 'assets/imgs/1.jpg',
           name: 'Stayfit',
           short_name: 'stayfit',
@@ -45,11 +45,10 @@ export class SearchComponent  implements OnInit {
           rating: 5,
           delivery_time: 20,
           price: 100,
-          quantity: 'two',
-
+          serving: "One"
         },
         {
-          uid: '5678',
+          uid: '12wefdefsdss',
           cover: 'assets/imgs/2.jpg',
           name: 'Dorys',
           short_name: 'dorys',
@@ -59,12 +58,11 @@ export class SearchComponent  implements OnInit {
           ],
           rating: 3.7,
           delivery_time: 25,
-          price: 100,
-          quantity: 'one',
-
+          price: 200,
+          serving: "Two"
         },
         {
-          uid: '9012',
+          uid: '12wefdssrete',
           cover: 'assets/imgs/3.jpg',
           name: 'Rocomamas',
           short_name: 'rocomamas',
@@ -74,9 +72,8 @@ export class SearchComponent  implements OnInit {
           ],
           rating: 3.7,
           delivery_time: 25,
-          price: 100,
-          quantity: 'one',
-
+          price: 300,
+          serving: "Three"
         },
   ];
 

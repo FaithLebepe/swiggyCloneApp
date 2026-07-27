@@ -1,26 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ɵEmptyOutletComponent } from '@angular/router';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonGrid, IonRow, IonText, IonLabel, IonCol, IonIcon, IonToggle, IonList, IonListHeader, IonItem, IonThumbnail, IonAccordion, IonFooter, IonButton } from "@ionic/angular/standalone";
+import { ActivatedRoute, Router } from '@angular/router';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonGrid, IonRow, IonText, IonLabel, IonCol, IonIcon, IonToggle, IonList, IonListHeader, IonItem, IonThumbnail, IonFooter, IonButton } from "@ionic/angular/standalone";
 import { NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { addOutline, cartOutline, removeOutline, star } from 'ionicons/icons';
+import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
   standalone: true,
   styleUrls: ['./items.component.scss'],
-  imports: [IonFooter, IonItem, IonListHeader, IonList, IonToggle, IonIcon, IonLabel, IonText, IonRow, IonTitle, IonToolbar, IonHeader, IonContent, IonButtons, IonBackButton, IonGrid, IonCol, IonThumbnail, ɵEmptyOutletComponent, IonAccordion, IonButton],
+  imports: [ DecimalPipe, IonFooter, IonItem, IonListHeader, IonList, IonToggle, IonIcon, IonLabel, IonText, IonRow, IonTitle, IonToolbar, IonHeader, IonContent, IonButtons, IonBackButton, IonGrid, IonCol, IonThumbnail, IonButton],
 })
 export class ItemsComponent  implements OnInit {
 
   id: any;
-  data: any = {};
-  items: any[] = [];
+  data: any = {}; // Restaurant data
+  items: any[] = []; // Items for the selected restaurant
   veg: boolean = false;
+  cartData: any = {};
 
   constructor (
     private navCtrl: NavController,
     private route: ActivatedRoute,
+    private router: Router
   ) {
     addIcons({ star, removeOutline, addOutline, cartOutline });
   }
@@ -41,8 +44,11 @@ export class ItemsComponent  implements OnInit {
   }
 
   getItems() {
+    this.data = {}; 
+    this.cartData = {};
     this.data = this.restaurants.find(x => x.uid === this.id); 
-    this.items = this.allItems;
+    this.categories = this.categories.filter(x => x.uid === this.id); 
+    this.items = this.allItems.filter(x => x.uid === this.id);
   }
 
   getCuisines(cuisines: string[]) {
@@ -53,9 +59,76 @@ export class ItemsComponent  implements OnInit {
     console.log('vegOnly: ', event.detail.checked);
   }
 
+  addToCart(item: any, index: number) {
+    try {
+      console.log('addToCart: ', item, index);
+      
+      if(!this.items[index].quantity || this.items[index].quantity === 0) {
+        this.items[index].quantity = 1; 
+        this.calculate();
+      } else {
+        this.items[index].quantity++;
+        this.calculate();
+      }
+    }
+    catch (error) {
+      console.error('Error adding to cart: ', error);
+    }
+  }
+
+  removeFromCart(item: any, index: number) {
+    if(this.items[index].quantity !== 0) {
+      this.items[index].quantity--;
+    } else {
+      this.items[index].quantity = 0;
+    }
+    this.calculate();
+  }
+
+  calculate() {
+    console.log('calculate: ', this.items);
+    this.cartData.items = [];
+    let item = this.items.filter(x => x.quantity > 0); 
+    this.cartData.items = item;
+    console.log('added items: ',item);
+    this.cartData.totalPrice = 0;
+    this.cartData.totalItem = 0;
+    item.forEach((element: any) => { // 
+      this.cartData.totalItem += element.quantity;
+      this.cartData.totalPrice += (parseFloat(element.price) * parseFloat(element.quantity)); 
+    })
+    this.cartData.totalPrice = parseFloat(this.cartData.totalPrice.toFixed(2)); 
+
+    if(this.cartData.totalItem === 0) {
+      this.cartData.totalPrice = 0;
+      this.cartData.totalItem = 0;
+    }
+    console.log('cartData: ', this.cartData);
+  }
+
+  saveToCart(){
+    try{
+      this.cartData.restaurant = {}
+      this.cartData.restaurant = this.data;
+      console.log('cartData: ', this.cartData);
+    } catch (error) {
+      console.error('Error saving to cart: ', error);
+    }
+  }
+
+  async viewCart(){
+    if(this.cartData.items && this.cartData.totalItem > 0) {
+      await this.saveToCart();
+      this.router.navigate(['/tabs/cart']);
+      // this.router.navigate([this.router.url +'/cart']);
+    }
+  }
+
+  
+
   restaurants = [
         {
-          uid: '1234',
+          uid: "12wefdss",
           cover: 'assets/imgs/1.jpg',
           name: 'Stayfit',
           short_name: 'stayfit',
@@ -66,12 +139,11 @@ export class ItemsComponent  implements OnInit {
           ],
           rating: 5,
           delivery_time: 20,
-          price: 100,
-          quantity: 'two',
-
+          price: 200,
+          serving: "Two"
         },
         {
-          uid: '5678',
+          uid: '12wefdefsdss',
           cover: 'assets/imgs/2.jpg',
           name: 'Dorys',
           short_name: 'dorys',
@@ -83,11 +155,10 @@ export class ItemsComponent  implements OnInit {
           rating: 3.7,
           delivery_time: 25,
           price: 100,
-          quantity: 'one',
-
+          serving: "One"
         },
         {
-          uid: '9012',
+          uid: '12wefdssrete',
           cover: 'assets/imgs/3.jpg',
           name: 'Rocomamas',
           short_name: 'rocomamas',
@@ -98,9 +169,8 @@ export class ItemsComponent  implements OnInit {
           ],
           rating: 3.7,
           delivery_time: 25,
-          price: 100,
-          quantity: 'one',
-
+          price: 300,
+          serving: "Three"
         },
       ];
 
