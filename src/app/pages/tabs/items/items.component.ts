@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { addOutline, cartOutline, removeOutline, star } from 'ionicons/icons';
 import { DecimalPipe } from '@angular/common';
+import { Preferences } from '@capacitor/preferences';
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
@@ -19,6 +20,7 @@ export class ItemsComponent  implements OnInit {
   items: any[] = []; // Items for the selected restaurant
   veg: boolean = false;
   cartData: any = {};
+  storeData: any = {}; 
 
   constructor (
     private navCtrl: NavController,
@@ -43,12 +45,37 @@ export class ItemsComponent  implements OnInit {
     });
   }
 
-  getItems() {
+  getCart() {
+    return Preferences.get({ key: 'cart' });
+  }
+
+  async getItems() {
     this.data = {}; 
     this.cartData = {};
+    this.storeData = {};
     this.data = this.restaurants.find(x => x.uid === this.id); 
     this.categories = this.categories.filter(x => x.uid === this.id); 
     this.items = this.allItems.filter(x => x.uid === this.id);
+    let cart: any = await this.getCart()
+    console.log('cart: ', cart);
+    if(cart?.value) {
+      this.storeData = JSON.parse(cart.value);
+      console.log('storeData: ', this.storeData);
+
+      // Check if the restaurant in the cart matches the current restaurant and if there are items in the cart
+      if(this.id == this.storeData.restaurant.uid && this.allItems.length > 0) {
+        this.allItems.forEach((element: any) => {
+          this.storeData.items.forEach((cartItem: any) => {  
+            if(element.id !== cartItem.id) { 
+              return;
+            }
+            element.quantity = cartItem.quantity; 
+          });
+        })
+      }
+      this.cartData.totalItem = this.storeData.totalItem;
+      this.cartData.totalPrice = this.storeData.totalPrice;
+    }
   }
 
   getCuisines(cuisines: string[]) {
@@ -57,6 +84,14 @@ export class ItemsComponent  implements OnInit {
 
   vegOnly(event: any){
     console.log('vegOnly: ', event.detail.checked);
+    this.items = [];
+    if(event.detail.checked == true) {
+      this.items = this.allItems.filter(x => x.uid === this.id && x.veg === true);
+    }
+    else {
+      this.items = this.allItems;
+      console.log('allItems: ', this.items);
+    }
   }
 
   addToCart(item: any, index: number) {
@@ -93,7 +128,7 @@ export class ItemsComponent  implements OnInit {
     console.log('added items: ',item);
     this.cartData.totalPrice = 0;
     this.cartData.totalItem = 0;
-    item.forEach((element: any) => { // 
+    item.forEach((element: any) => { //
       this.cartData.totalItem += element.quantity;
       this.cartData.totalPrice += (parseFloat(element.price) * parseFloat(element.quantity)); 
     })
@@ -106,11 +141,16 @@ export class ItemsComponent  implements OnInit {
     console.log('cartData: ', this.cartData);
   }
 
-  saveToCart(){
+  async saveToCart(){
     try{
       this.cartData.restaurant = {}
       this.cartData.restaurant = this.data;
       console.log('cartData: ', this.cartData);
+
+      await Preferences.set({
+        key: 'cart',
+        value: JSON.stringify(this.cartData)
+      });
     } catch (error) {
       console.error('Error saving to cart: ', error);
     }
