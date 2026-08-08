@@ -32,7 +32,7 @@ import { LoadingRestaurantComponent } from "src/app/components/loading-restauran
 export class HomeComponent  implements OnInit {
 
   banners: any[] = [];
-  restaurant: any = [];
+  restaurants: any = [];
   isLoading: boolean = false;
 
   constructor() { 
@@ -49,9 +49,54 @@ export class HomeComponent  implements OnInit {
         {banner: 'assets/imgs/3.jpg'},
       ];
 
-      this.restaurant = [
+      this.restaurants = [
         {
-          uid: '1234',
+          uid: '12wefdss',
+          cover: 'assets/imgs/1.jpg',
+          name: 'Stayfit',
+          short_name: 'stayfit',
+          cuisines: [
+            'Italian',
+            'Mexican'
+          ],
+          rating: 5,
+          delivery_time: 25,
+          distance: 2.5,
+          price: 100,
+          serving: "One"
+        },
+        {
+          uid: '12wefdefsdss',
+          cover: 'assets/imgs/2.jpg',
+          name: 'Stayfit1',
+          short_name: 'stayfit1',
+          cuisines: [
+            'Italian',
+            'Mexican'
+          ],
+          rating: 5,
+          delivery_time: 25,
+          distance: 2.5,
+          price: 200,
+          serving: "Two"
+        },
+        {
+          uid: '12wefdssrete',
+          cover: 'assets/imgs/3.jpg',
+          name: 'Stayfit2',
+          short_name: 'stayfit2',
+          cuisines: [
+            'Italian',
+            'Mexican'
+          ],
+          rating: 5,
+          delivery_time: 25,
+          distance: 2.5,
+          price: 300,
+          serving: "Three"
+        },
+        {
+          uid: '12wefdss',
           cover: 'assets/imgs/1.jpg',
           name: 'Stayfit',
           short_name: 'stayfit',
@@ -61,9 +106,8 @@ export class HomeComponent  implements OnInit {
           ],
           rating: 5,
           delivery_time: 20,
-          price: 100,
-          quantity: 'Two',
-
+          price: 400,
+          serving: "Four"
         },
         {
           uid: '5678',
@@ -76,9 +120,8 @@ export class HomeComponent  implements OnInit {
           ],
           rating: 3.7,
           delivery_time: 25,
-          price: 100,
-          quantity: 'One',
-
+          price: 500,
+          serving: "Five"
         },
         {
           uid: '9012',
@@ -91,9 +134,8 @@ export class HomeComponent  implements OnInit {
           ],
           rating: 3.7,
           delivery_time: 25,
-          price: 100,
-          quantity: 'One',
-
+          price: 600,
+          serving: "Six"
         },
       ];
       this.isLoading = false;

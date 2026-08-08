@@ -9,52 +9,10 @@
 
 <ion-content>
   <div class="container">
-    @if (data?.name) {
-      <ion-grid class="borderBottom">
-        <ion-row class="ion-padding-horizontal dashedBorderBottom">
-          <ion-label>
-            <h1> {{ data.name }}</h1>
-            @if (data?.cuisines) {
-              <ion-text> <p> {{getCuisines(data.cuisines)}} </p></ion-text>
-            }
-            <p> {{data.address}} </p>
-          </ion-label>
-        </ion-row>
-
-        <ion-row>
-          <ion-col size="4">
-            <ion-label class="ion-text-center">
-              <ion-text> 
-                <p> 
-                  <ion-icon name="star"></ion-icon> {{data?.rating}}
-                </p>
-              </ion-text>
-              <p>Ratings</p>
-            </ion-label>
-          </ion-col>
-          <ion-col size="4">
-            <ion-label class="ion-text-center">
-              <ion-text> 
-                <p> 
-                  {{data?.delivery_time}} MINS
-                </p>
-              </ion-text>
-              <p>Delivery Time</p>
-            </ion-label>
-          </ion-col>
-          <ion-col size="4">
-            <ion-label class="ion-text-center">
-              <ion-text> 
-                <p> 
-                  R{{data?.price}}
-                </p>
-              </ion-text>
-              <p>For {{data?.quantity}}</p>
-            </ion-label>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    }
+      <app-restaurant-detail
+        [data]="data"
+        [isLoading]="isLoading"
+      ></app-restaurant-detail>
 
     <ion-row class="ion-padding borderBottomSmall veg">
       <ion-label>
@@ -62,52 +20,52 @@
       </ion-label>
       <ion-toggle mode="md" color="success" (ionChange)="vegOnly($event)" [checked]="veg"></ion-toggle>
     </ion-row>
+    @if(!isLoading && categories?.length == 0){
+      <app-empty-screen [model]="model"></app-empty-screen>
+      }
 
+    @if (isLoading) { 
+      <app-loading-restaurant></app-loading-restaurant>
+    }
+    @else {
     @for (category of categories; track $index) {
       <ion-list lines="none">
         <ion-list-header>
           {{ category?.name }}
         </ion-list-header>
+
         @for (item of items; track $index) {
           <ng-container>
             @if (item?.category_id == category?.id) {
-              <ion-item>
-                <ion-thumbnail slot="start">
-                  <img [src]="item?.cover ? item?.cover : 'assets/imgs/1.jpg'" />
-                </ion-thumbnail>
-                <ion-label>
-                  <h4>{{item?.name}}</h4>
-                  <p class="ion-text-wrap">{{item?.desc}}</p>
-                  <ion-text> <p>R{{item?.price}}</p> </ion-text>
-                </ion-label>
-                <!-- <ion-row>
-                  <ion-text class="ion-padding-horizontal" color="success">Add</ion-text>
-                </ion-row> -->
-                <ion-row>
-                  <ion-icon color="success" name="remove-outline"></ion-icon>
-                  <ion-text class="ion-text-center quantity" color="success">1</ion-text>
-                  <ion-icon color="success" name="add-outline"></ion-icon>
-                </ion-row>
-              </ion-item>
+              <app-item
+                [item]="item"
+                [index]="$index"
+                (add)="addToCart($event)"
+                (remove)="removeFromCart($event)"
+              ></app-item>
             }
           </ng-container>
         }
       </ion-list>
     }
-    </div>
+  }
+  </div>
+
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar color="success">
-    <ion-label color=white>
-      <h4>1 Item | R 40.00</h4>
-      <ion-text color="light">
-        <p>Extra charges may apply</p>
-      </ion-text>
-    </ion-label>
-    <ion-button color=white slot="end" fill="clear">
-      <ion-icon slot="end" name="cart-outline"></ion-icon>
-      VIEW CART
-    </ion-button>
-  </ion-toolbar>
-</ion-footer>
+@if(cartData.totalItem > 0) {
+  <ion-footer>
+    <ion-toolbar color="success">
+      <ion-label color=white>
+        <h4> {{cartData.totalItem}} Item@if(cartData.totalItem > 1) {s} | R {{cartData.totalPrice}}</h4>
+        <ion-text color="light">
+          <p>Extra charges may apply</p>
+        </ion-text>
+      </ion-label>
+      <ion-button color=white slot="end" fill="clear" (click)="viewCart()"> 
+        <ion-icon slot="end" name="cart-outline"></ion-icon>
+        VIEW CART
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+}
