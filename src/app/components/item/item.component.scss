@@ -1,0 +1,9 @@
+ion-row {
+    border: 1px solid var(--ion-color-medium);
+    border-radius: 2px;
+    padding: 0.3rem;
+    .quantity {
+        width: 2rem;
+    }
+}
+

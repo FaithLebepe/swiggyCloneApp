@@ -1,26 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonGrid, IonRow, IonText, IonLabel, IonCol, IonIcon, IonToggle, IonList, IonListHeader, IonItem, IonThumbnail, IonFooter, IonButton } from "@ionic/angular/standalone";
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonGrid, IonRow, IonText, IonLabel, IonCol, IonIcon, IonToggle, IonList, IonListHeader, IonItem, IonThumbnail, IonFooter, IonButton, IonSkeletonText } from "@ionic/angular/standalone";
 import { NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { addOutline, cartOutline, removeOutline, star } from 'ionicons/icons';
-import { DecimalPipe } from '@angular/common';
+import { addOutline, cartOutline, fastFoodOutline, removeOutline, star } from 'ionicons/icons';
 import { Preferences } from '@capacitor/preferences';
+import { ItemComponent } from 'src/app/components/item/item.component';
+import { LoadingRestaurantComponent } from "src/app/components/loading-restaurant/loading-restaurant.component";
+import { RestaurantDetailComponent } from 'src/app/components/restaurant-detail/restaurant-detail.component';
+import { EmptyScreenComponent } from "src/app/components/empty-screen/empty-screen.component";
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
   standalone: true,
   styleUrls: ['./items.component.scss'],
-  imports: [ DecimalPipe, IonFooter, IonItem, IonListHeader, IonList, IonToggle, IonIcon, IonLabel, IonText, IonRow, IonTitle, IonToolbar, IonHeader, IonContent, IonButtons, IonBackButton, IonGrid, IonCol, IonThumbnail, IonButton],
+  imports: [IonSkeletonText, IonFooter, IonListHeader, IonList, IonToggle, IonIcon, IonLabel, IonText, IonRow, IonTitle, IonToolbar, IonHeader, IonContent, IonButtons, IonBackButton, IonGrid, IonCol, IonButton, ItemComponent, LoadingRestaurantComponent, RestaurantDetailComponent, EmptyScreenComponent],
 })
 export class ItemsComponent  implements OnInit {
 
   id: any;
   data: any = {}; // Restaurant data
   items: any[] = []; // Items for the selected restaurant
+  isLoading: boolean = false; // Loading state
   veg: boolean = false;
   cartData: any = {};
   storeData: any = {}; 
+  model = {
+    icon: 'fast-food-outline',
+    title: 'No-Menu-Available'
+  }
 
   constructor (
     private navCtrl: NavController,
@@ -50,9 +59,12 @@ export class ItemsComponent  implements OnInit {
   }
 
   async getItems() {
+    this.isLoading = true;
     this.data = {}; 
     this.cartData = {};
     this.storeData = {};
+
+    setTimeout(async() => {
     this.data = this.restaurants.find(x => x.uid === this.id); 
     this.categories = this.categories.filter(x => x.uid === this.id); 
     this.items = this.allItems.filter(x => x.uid === this.id);
@@ -74,12 +86,10 @@ export class ItemsComponent  implements OnInit {
         })
       }
       this.cartData.totalItem = this.storeData.totalItem;
-      this.cartData.totalPrice = this.storeData.totalPrice;
+      this.cartData.totalPrice = this.storeData.totalPrice; 
     }
-  }
-
-  getCuisines(cuisines: string[]) {
-    return cuisines.join(', ');
+    this.isLoading = false;
+    }, 3000);
   }
 
   vegOnly(event: any){
@@ -94,11 +104,11 @@ export class ItemsComponent  implements OnInit {
     }
   }
 
-  addToCart(item: any, index: number) {
+  addToCart(index: number) {
     try {
-      console.log('addToCart: ', item, index);
+      console.log('addToCart: ', index);
       
-      if(!this.items[index].quantity || this.items[index].quantity === 0) {
+      if(!this.items[index].quantity) {
         this.items[index].quantity = 1; 
         this.calculate();
       } else {
@@ -111,7 +121,7 @@ export class ItemsComponent  implements OnInit {
     }
   }
 
-  removeFromCart(item: any, index: number) {
+  removeFromCart(index: number) {
     if(this.items[index].quantity !== 0) {
       this.items[index].quantity--;
     } else {
@@ -128,7 +138,7 @@ export class ItemsComponent  implements OnInit {
     console.log('added items: ',item);
     this.cartData.totalPrice = 0;
     this.cartData.totalItem = 0;
-    item.forEach((element: any) => { //
+    item.forEach((element: any) => { 
       this.cartData.totalItem += element.quantity;
       this.cartData.totalPrice += (parseFloat(element.price) * parseFloat(element.quantity)); 
     })
