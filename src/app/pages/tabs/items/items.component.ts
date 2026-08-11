@@ -1,21 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonGrid, IonRow, IonText, IonLabel, IonCol, IonIcon, IonToggle, IonList, IonListHeader, IonItem, IonThumbnail, IonFooter, IonButton, IonSkeletonText } from "@ionic/angular/standalone";
+import { IonicModule } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { addOutline, cartOutline, fastFoodOutline, removeOutline, star } from 'ionicons/icons';
+import { addOutline, cartOutline, removeOutline, star } from 'ionicons/icons';
 import { Preferences } from '@capacitor/preferences';
 import { ItemComponent } from 'src/app/components/item/item.component';
 import { LoadingRestaurantComponent } from "src/app/components/loading-restaurant/loading-restaurant.component";
 import { RestaurantDetailComponent } from 'src/app/components/restaurant-detail/restaurant-detail.component';
 import { EmptyScreenComponent } from "src/app/components/empty-screen/empty-screen.component";
-import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
   standalone: true,
   styleUrls: ['./items.component.scss'],
-  imports: [IonSkeletonText, IonFooter, IonListHeader, IonList, IonToggle, IonIcon, IonLabel, IonText, IonRow, IonTitle, IonToolbar, IonHeader, IonContent, IonButtons, IonBackButton, IonGrid, IonCol, IonButton, ItemComponent, LoadingRestaurantComponent, RestaurantDetailComponent, EmptyScreenComponent],
+  imports: [ 
+    IonicModule,
+    ItemComponent,  
+    LoadingRestaurantComponent,
+    RestaurantDetailComponent,
+    EmptyScreenComponent
+  ],
 })
 export class ItemsComponent  implements OnInit {
 
@@ -169,8 +174,7 @@ export class ItemsComponent  implements OnInit {
   async viewCart(){
     if(this.cartData.items && this.cartData.totalItem > 0) {
       await this.saveToCart();
-      this.router.navigate(['/tabs/cart']);
-      // this.router.navigate([this.router.url +'/cart']);
+      this.router.navigate([this.router.url + '/cart']);
     }
   }
 

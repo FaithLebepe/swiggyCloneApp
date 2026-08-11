@@ -1,25 +1,14 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { 
-  IonItem, 
-  IonThumbnail, 
-  IonLabel, 
-  IonText, 
-  IonIcon 
-} from "@ionic/angular/standalone";
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-restaurant',
   templateUrl: './restaurant.component.html',
   standalone: true,
   imports: [ 
-    IonItem, 
-    IonThumbnail, 
-    IonLabel, 
-    IonText, 
-    IonIcon, 
-    IonLabel, 
+    IonicModule,
     DecimalPipe,
     RouterLink,
   ],

@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonHeader, IonToolbar, IonSearchbar, IonContent, IonList, IonLabel, IonListHeader } from "@ionic/angular/standalone";
+import { IonicModule } from '@ionic/angular';
 import { LoadingRestaurantComponent } from "src/app/components/loading-restaurant/loading-restaurant.component";
 import { RestaurantComponent } from "src/app/components/restaurant/restaurant.component";
 import { EmptyScreenComponent } from "src/app/components/empty-screen/empty-screen.component";
-
 import { addIcons } from 'ionicons';
 import { 
   searchOutline 
@@ -13,7 +12,12 @@ import {
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   standalone: true,
-  imports: [IonListHeader, IonLabel, IonList, IonSearchbar, IonToolbar, IonHeader, IonContent, LoadingRestaurantComponent, RestaurantComponent, EmptyScreenComponent],
+  imports: [
+    IonicModule,
+    LoadingRestaurantComponent,
+    RestaurantComponent,
+    EmptyScreenComponent
+  ],
 })
 export class SearchComponent  implements OnInit {
 

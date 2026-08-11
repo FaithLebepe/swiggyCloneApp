@@ -1,12 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
-import { 
-  IonHeader, 
-  IonToolbar, 
-  IonTitle, 
-  IonContent, 
-  IonIcon 
-} from "@ionic/angular/standalone";
-
+import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { chevronDownOutline, star } from 'ionicons/icons';
 import { BannerComponent } from "src/app/components/banner/banner.component";
@@ -19,11 +12,7 @@ import { LoadingRestaurantComponent } from "src/app/components/loading-restauran
   styleUrls: ['./home.component.scss'],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   imports: [
-    IonIcon,
-    IonTitle,
-    IonToolbar,
-    IonHeader,
-    IonContent, 
+    IonicModule,
     BannerComponent, 
     RestaurantComponent, 
     LoadingRestaurantComponent, 

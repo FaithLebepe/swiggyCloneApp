@@ -1,11 +1,10 @@
 import { Component, input, Input, OnInit } from '@angular/core';
-import { IonGrid, IonRow, IonLabel, IonCol, IonIcon, IonText, IonSkeletonText, IonItem } from "@ionic/angular/standalone";
-
+import { IonicModule } from '@ionic/angular';
 @Component({
   selector: 'app-restaurant-detail',
   templateUrl: './restaurant-detail.component.html',
   styleUrls: ['./restaurant-detail.component.scss'],
-  imports: [IonItem, IonSkeletonText, IonRow, IonGrid, IonLabel, IonCol, IonIcon, IonText],
+  imports: [ IonicModule ],
 })
 export class RestaurantDetailComponent  implements OnInit {
 

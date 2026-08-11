@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
-import { IonRow } from "@ionic/angular/standalone";
+import { IonicModule } from '@ionic/angular';
 import { IonicSlides } from '@ionic/angular/standalone';
 
 @Component({
@@ -9,7 +9,7 @@ import { IonicSlides } from '@ionic/angular/standalone';
   styleUrls: ['./banner.component.scss'],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   standalone: true,
-  imports: [IonRow, CommonModule],
+  imports: [ IonicModule ],
 })
 export class BannerComponent  implements OnInit {
 

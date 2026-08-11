@@ -40,6 +40,10 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'restaurant/:restaurantId/cart',
+    component: CartComponent
+  },
+  {
     path: 'restaurant/:restaurantId',
     component: ItemsComponent
   },

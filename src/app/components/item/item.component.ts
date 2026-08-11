@@ -1,24 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { 
-  IonItem, 
-  IonThumbnail, 
-  IonLabel, 
-  IonRow, 
-  IonIcon,
-  IonText
-  } from "@ionic/angular/standalone";
+import { IonicModule } from '@ionic/angular';
+
 import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
   imports: [
-    IonRow,
+    IonicModule,
     DecimalPipe,
-    IonItem,
-    IonThumbnail,
-    IonLabel,
-    IonIcon,
-    IonText
 ],
   styleUrls: ['./item.component.scss'],
 })
