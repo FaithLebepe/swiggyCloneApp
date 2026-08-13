@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import { 
-  IonTabs, 
-  IonIcon,  
-  IonTabBar, 
-  IonTabButton 
-} from "@ionic/angular/standalone";
-
+import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
   fastFoodOutline, 
@@ -20,13 +13,7 @@ import {
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss'],
   standalone: true,
-    imports: [ 
-      IonTabs, 
-      IonIcon, 
-      IonTabBar, 
-      IonTabButton, 
-      IonTabs, 
-],
+    imports: [IonicModule],
 
 })
 export class TabsComponent  implements OnInit {

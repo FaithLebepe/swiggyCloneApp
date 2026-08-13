@@ -1,3 +1,120 @@
-<p>
-  cart works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="tertiary">Cart</ion-title>
+    @if(urlCheck && urlCheck != 'tabs'){
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="getPreviousUrl()"></ion-back-button>
+      </ion-buttons>
+    }
+  </ion-toolbar>
+</ion-header>
+
+@if (!model?.restaurant) {
+  <ion-content>
+    <app-empty-screen></app-empty-screen>
+  </ion-content>  
+}
+@if (model?.restaurant) {
+<ion-content>
+  <ion-list lines="none" class="borderBottomSmall">
+    <ion-item>
+      <ion-thumbnail>
+        <ion-img [src]="model?.restaurant?.cover ? model.restaurant.cover : 'assets/imgs/1.jpg'"></ion-img>
+      </ion-thumbnail>
+      <ion-label class="ion-padding">
+        <ion-text><h3>{{ model?.restaurant?.name }}</h3></ion-text>
+        <ion-note> {{ model?.restaurant?.address }} </ion-note>
+      </ion-label>
+    </ion-item>
+    @for(item of model?.items; track $index) {
+    <app-cart-item 
+      [item]="item"
+      [index]="$index"
+      (add)="addToCart($event)"
+      (remove)="removeFromCart($event)"></app-cart-item>
+  }
+  </ion-list>
+
+  <ion-item lines="none" class="borderBottom">
+    <ion-icon slot="start" name="list-outline"></ion-icon>
+    <ion-input type="text" placeholder="Any instructions? we will try our best" [(ngModel)]="instruction"></ion-input>
+  </ion-item>
+
+  <ion-list>
+    <ion-list-header lines="none">
+      <ion-label class="details" color="tertiary">
+        Bill Details
+      </ion-label>
+    </ion-list-header>
+    <ion-item lines="none">
+      <ion-label color="dark">Item Total</ion-label>
+      <ion-text slot="end" color="dark">
+        <h5>R{{ model?.totalPrice | number:'1.2-2' }}</h5>
+      </ion-text>  
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label color="dark">Delivery Fee</ion-label>
+      <ion-text slot="end" color="dark">
+        <h5>R{{ model?.deliveryCharge }}</h5>
+      </ion-text>  
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label color="dark">Grand Total</ion-label>
+      <ion-text slot="end" color="dark">
+        <h4>R{{ model?.grandTotal | number:'1.2-2' }}</h4>
+      </ion-text>  
+    </ion-item>
+  </ion-list>
+</ion-content>
+}
+@if (model?.restaurant) {
+  <ion-footer>
+    <ion-toolbar>
+      @if (!location.lat) {
+        <ion-row>
+          <ion-col size="6">
+            <ion-button expand="block" fill="outline" color="success" (click)="addAddress()">
+              ADD ADDRESS
+            </ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button expand="block" color="success" (click)="changeAddress()">
+              CHANGE ADDRESS
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      }
+      @if (location?.lat) {
+        <ion-item lines="none">
+          <ion-button slot="end" size="medium" fill="clear" (click)="changeAddress()">CHANGE</ion-button>
+          <ion-icon class="home" slot="start" name="home-outline"></ion-icon>
+          <ion-label>
+            <h4>Delivered to HOME</h4>
+            <h5>Oudebrug, Potchefstroom</h5>
+          </ion-label>
+          <ion-text color="medium"></ion-text>
+        </ion-item>
+      
+        <ion-row>
+          <ion-col size="6" class="ion-no-padding" (click)="scrollToBottom()">
+            <ion-item lines="none" color="light" class="ion-no-padding">
+              <ion-label>
+                <h4>R{{ model?.grandTotal | number:'1.2-2' }}</h4>
+                <ion-text color="secondary">
+                  VIEW DETAILED BILL
+                </ion-text>
+                <ion-icon name="chevron-down-outline"></ion-icon>
+              </ion-label>
+              
+            </ion-item>
+          </ion-col>
+          <ion-col size="6" class="ion-text-centre colStyle">
+            <ion-button expand="block" color="white" fill="clear" (click)="makePayment()">
+              MAKE PAYMENT
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      }
+    </ion-toolbar>
+  </ion-footer>
+}
