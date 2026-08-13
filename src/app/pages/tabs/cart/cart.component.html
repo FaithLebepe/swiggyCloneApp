@@ -9,6 +9,12 @@
   </ion-toolbar>
 </ion-header>
 
+@if (!model?.restaurant) {
+  <ion-content>
+    <app-empty-screen></app-empty-screen>
+  </ion-content>  
+}
+@if (model?.restaurant) {
 <ion-content>
   <ion-list lines="none" class="borderBottomSmall">
     <ion-item>
@@ -16,27 +22,16 @@
         <ion-img [src]="model?.restaurant?.cover ? model.restaurant.cover : 'assets/imgs/1.jpg'"></ion-img>
       </ion-thumbnail>
       <ion-label class="ion-padding">
-        <ion-text><h4>{{ model?.restaurant?.name }}</h4></ion-text>
+        <ion-text><h3>{{ model?.restaurant?.name }}</h3></ion-text>
         <ion-note> {{ model?.restaurant?.address }} </ion-note>
       </ion-label>
     </ion-item>
     @for(item of model?.items; track $index) {
-    <ion-item>
-      <ion-text>
-        <span class="dotStyle">&#9679;</span>
-      </ion-text>
-      <ion-label class="ion-text-wrap">
-        <h4>{{ item?.name }}</h4>
-      </ion-label>
-      <ion-row>
-        <ion-icon color="success" name="remove-outline" (click)="removeFromCart($index)"></ion-icon>
-        <ion-text color="success" class="ion-text-center quantity"> {{ item?.quantity }}</ion-text>
-        <ion-icon color="success" name="add-outline" (click)="addToCart($index)"></ion-icon>
-      </ion-row>
-      <ion-text slot="end" color="dark" class="ion-text-right price">
-        <h5>R{{ item?.price * item?.quantity | number:'1.2-2'}}</h5>
-      </ion-text>
-    </ion-item>
+    <app-cart-item 
+      [item]="item"
+      [index]="$index"
+      (add)="addToCart($event)"
+      (remove)="removeFromCart($event)"></app-cart-item>
   }
   </ion-list>
 
@@ -71,50 +66,55 @@
     </ion-item>
   </ion-list>
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-row>
-      <ion-col size="6">
-        <ion-button expand="block" fill="outline" color="success" (click)="addAdrress()">
-          ADD ADDRESS
-        </ion-button>
-      </ion-col>
-      <ion-col size="6">
-        <ion-button expand="block" color="success" (click)="changeAddress()">
-          CHANGE ADDRESS
-        </ion-button>
-      </ion-col>
-    </ion-row>
-
-    <ion-item lines="none">
-      <ion-button slot="end" size="medium" fill="clear" (click)="changeAddress()">CHANGE</ion-button>
-      <ion-icon class="home" slot="start" name="home-outline"></ion-icon>
-      <ion-label>
-        <h4>Delivered to HOME</h4>
-        <h5>Oudebrug, Potchefstroom</h5>
-      </ion-label>
-      <ion-text color="medium"></ion-text>
-    </ion-item>
-
-    <ion-row>
-      <ion-col size="6" class="ion-no-padding" (click)="scrollToBottom()">
-        <ion-item lines="none" color="light" class="ion-no-padding">
+}
+@if (model?.restaurant) {
+  <ion-footer>
+    <ion-toolbar>
+      @if (!location.lat) {
+        <ion-row>
+          <ion-col size="6">
+            <ion-button expand="block" fill="outline" color="success" (click)="addAddress()">
+              ADD ADDRESS
+            </ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button expand="block" color="success" (click)="changeAddress()">
+              CHANGE ADDRESS
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      }
+      @if (location?.lat) {
+        <ion-item lines="none">
+          <ion-button slot="end" size="medium" fill="clear" (click)="changeAddress()">CHANGE</ion-button>
+          <ion-icon class="home" slot="start" name="home-outline"></ion-icon>
           <ion-label>
-            <h4>R{{ model?.grandTotal | number:'1.2-2' }}</h4>
-            <ion-text color="secondary">
-              VIEW DETAILED BILL
-            </ion-text>
-            <ion-icon name="chevron-down-outline"></ion-icon>
+            <h4>Delivered to HOME</h4>
+            <h5>Oudebrug, Potchefstroom</h5>
           </ion-label>
-          
+          <ion-text color="medium"></ion-text>
         </ion-item>
-      </ion-col>
-      <ion-col size="6" class="ion-text-centre colStyle">
-        <ion-button expand="block" color="white" fill="clear" (click)="makePayment()">
-          MAKE PAYMENT
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-toolbar>
-</ion-footer>
+      
+        <ion-row>
+          <ion-col size="6" class="ion-no-padding" (click)="scrollToBottom()">
+            <ion-item lines="none" color="light" class="ion-no-padding">
+              <ion-label>
+                <h4>R{{ model?.grandTotal | number:'1.2-2' }}</h4>
+                <ion-text color="secondary">
+                  VIEW DETAILED BILL
+                </ion-text>
+                <ion-icon name="chevron-down-outline"></ion-icon>
+              </ion-label>
+              
+            </ion-item>
+          </ion-col>
+          <ion-col size="6" class="ion-text-centre colStyle">
+            <ion-button expand="block" color="white" fill="clear" (click)="makePayment()">
+              MAKE PAYMENT
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      }
+    </ion-toolbar>
+  </ion-footer>
+}

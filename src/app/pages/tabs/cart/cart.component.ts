@@ -3,17 +3,19 @@ import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { addOutline, cartOutline, removeOutline, listOutline, homeOutline, chevronDownOutline } from 'ionicons/icons';
+import { addOutline, cartOutline, removeOutline, listOutline, homeOutline, chevronDownOutline, restaurant } from 'ionicons/icons';
 import { DecimalPipe } from '@angular/common';
-import { IonContent } from '@ionic/angular'
-
+import { IonContent } from '@ionic/angular';
+import moment from 'moment';
+import { CartItemComponent } from 'src/app/components/cart-item/cart-item.component';
+import { EmptyScreenComponent } from 'src/app/components/empty-screen/empty-screen.component';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   styleUrls: ['./cart.component.scss'],
   standalone: true,
-  imports: [ IonicModule ,DecimalPipe ],
+  imports: [IonicModule, DecimalPipe, CartItemComponent, EmptyScreenComponent ],
 })
 export class CartComponent  implements OnInit {
 
@@ -23,6 +25,7 @@ export class CartComponent  implements OnInit {
   model: any = {};
   deliveryCharge: number = 20;
   instruction: any;
+  location:any = {}
 
   constructor(
     private router: Router
@@ -32,15 +35,20 @@ export class CartComponent  implements OnInit {
 
   ngOnInit() {
     this.checkUrl();
-    this.getCartData();
+    this.getModel();
   }
 
   getCart() {
     return Preferences.get({ key: 'cart' });
   }
 
-  async getCartData(){
+  async getModel(){
     let data: any = await this.getCart();
+    this.location = {
+      lat: -26.681564908718197,
+      lng: 27.103305181838124,
+      address: 'Oudebrug, Potchefstroom'
+    }
     if(data?.value) { 
       this.model = await JSON.parse(data.value);
       console.log('cartData: ', this.model);
@@ -93,14 +101,35 @@ export class CartComponent  implements OnInit {
     this.router.navigate([this.url.join('/')]);
   }
 
-  addAdrress(){}
+  addAddress(){}
+
   changeAddress(){}
-  makePayment() {}
+
+  makePayment() {
+    try {
+      const data = {
+        restaurant_id: this.model.restaurant.uid,
+        res: this.model.restaurant,
+        order: JSON.stringify(this.model.items),
+        time: moment().format('lll'),
+        address: this.location,
+        total: this.model.totalPrice,
+        grandTotal: this.model.grandTotal,
+        deliveryCharge: this.model.deliveryCharge,
+        status: 'Created',
+        paid: 'COD'
+      };
+      console.log('order', data)
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
   scrollToBottom(){
     this.content.scrollToBottom(500);
   }
 
-  removeFromCart(index: number) {
+  removeFromCart(index: any) {
     if(this.model.items[index].quantity !== 0) {
       this.model.items[index].quantity--;
     } else {
@@ -109,7 +138,7 @@ export class CartComponent  implements OnInit {
     this.calculate();
   }
 
-  addToCart(index: number) {
+  addToCart(index: any) {
     try {
       console.log(this.model.items[index]);
       

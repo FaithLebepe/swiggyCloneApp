@@ -1,14 +1,7 @@
 ion-img {
     border-radius: 5px;
 }
-.quantity {
-        width: 2rem;
-    }
 
-
-.price{
-    width: 5rem;
-}
 
 .details {
     font-size: 1.01rem;
@@ -23,28 +16,19 @@ ion-input {
 }
 
 ion-item {
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
     ion-text {
         font-size: 0.9rem;
     }
 
-    ion-row {
-        border: 1px solid var(--ion-color-medium);
-        border-radius: 2px;
-        padding: 0.3rem;
-        
+    h4, h4, h3 {
+        font-weight: bold;
     }
 
     ion-label {
         font-size: 0.95rem;
     }
 
-}
-
-.dotStyle {
-    padding: 0 0.1rem;
-    border: 1px solid var(--ion-color-success);
-    margin: 0 0.5rem;
 }
 
 .colStyle {
