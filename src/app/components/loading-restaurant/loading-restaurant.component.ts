@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './loading-restaurant.component.html',
   styleUrls: ['./loading-restaurant.component.scss'],
   imports: [ IonicModule ],
+  standalone: true,
 })
 export class LoadingRestaurantComponent  implements OnInit {
 

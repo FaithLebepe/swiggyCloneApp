@@ -7,7 +7,8 @@ import { addOutline, removeOutline } from 'ionicons/icons';
   selector: 'app-cart-item',
   templateUrl: './cart-item.component.html',
   styleUrls: ['./cart-item.component.scss'],
-  imports: [ IonicModule, DecimalPipe]
+  imports: [ IonicModule, DecimalPipe],
+  standalone: true,
 })
 export class CartItemComponent  implements OnInit {
 
