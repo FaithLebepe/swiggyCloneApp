@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { addOutline, cartOutline, removeOutline, listOutline, homeOutline, chevronDownOutline, restaurant } from 'ionicons/icons';
+import { addOutline, cartOutline, removeOutline, listOutline, homeOutline, chevronDownOutline } from 'ionicons/icons';
 import { DecimalPipe } from '@angular/common';
 import { IonContent } from '@ionic/angular';
 import moment from 'moment';

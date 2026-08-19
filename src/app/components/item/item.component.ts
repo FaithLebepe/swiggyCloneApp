@@ -10,6 +10,7 @@ import { DecimalPipe } from '@angular/common';
     DecimalPipe,
 ],
   styleUrls: ['./item.component.scss'],
+  standalone: true,
 })
 export class ItemComponent  implements OnInit {
 
