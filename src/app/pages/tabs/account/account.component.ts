@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { checkmarkCircleOutline, chevronForwardOutline, homeOutline, powerOutline } from 'ionicons/icons';
@@ -7,7 +8,7 @@ import { OrdersComponent } from "src/app/components/orders/orders.component";
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
-  imports: [IonicModule, OrdersComponent],
+  imports: [IonicModule, OrdersComponent, RouterLink],
   standalone: true,
 })
 export class AccountComponent  implements OnInit {
