@@ -5,6 +5,7 @@ import { SearchComponent } from './pages/tabs/search/search.component';
 import { CartComponent } from './pages/tabs/cart/cart.component';
 import { AccountComponent } from './pages/tabs/account/account.component';
 import { ItemsComponent } from './pages/tabs/items/items.component';
+import { AddressComponent } from './pages/tabs/address/address.component';
 
 export const routes: Routes = [
   { 
@@ -46,6 +47,10 @@ export const routes: Routes = [
   {
     path: 'restaurant/:restaurantId',
     component: ItemsComponent
+  },
+  {
+    path: 'address',
+    component: AddressComponent
   },
   {
     path: '**',
