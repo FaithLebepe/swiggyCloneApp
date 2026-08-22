@@ -7,6 +7,7 @@ import { addIcons } from 'ionicons';
 import { 
   searchOutline 
 } from 'ionicons/icons';
+import { Api } from 'src/app/services/api/api';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -30,63 +31,18 @@ export class SearchComponent  implements OnInit {
 
   isLoading: boolean = false;
   query: any;
+  allRestaurants: any[] = [];
+  restaurants: RestaurantComponent[] = [];
 
-  constructor() {
+  constructor( private api:Api) {
     addIcons({   
       searchOutline 
     });
   }
-  allRestaurants: any[] = [
-        {
-          uid: '12wefdss',
-          cover: 'assets/imgs/1.jpg',
-          name: 'Stayfit',
-          short_name: 'stayfit',
-          cuisines: [
-            'Italian',
-            'Mexican'
-          ],
-          rating: 5,
-          delivery_time: 20,
-          price: 100,
-          serving: "One"
-        },
-        {
-          uid: '12wefdefsdss',
-          cover: 'assets/imgs/2.jpg',
-          name: 'Dorys',
-          short_name: 'dorys',
-          cuisines: [
-            'Italian',
-            'Mexican'
-          ],
-          rating: 3.7,
-          delivery_time: 25,
-          price: 200,
-          serving: "Two"
-        },
-        {
-          uid: '12wefdssrete',
-          cover: 'assets/imgs/3.jpg',
-          name: 'Rocomamas',
-          short_name: 'rocomamas',
-          cuisines: [
-            'Italian',
-            'Mexican'
-          ],
-          rating: 3.7,
-          delivery_time: 25,
-          price: 300,
-          serving: "Three"
-        },
-  ];
-
-  restaurants: RestaurantComponent[] = [];
-
   
-
   ngOnInit() {
     setTimeout(() => {
+      this.allRestaurants = this.api.allRestaurants;
       this.sInput.setFocus();
     }, 100);
 
