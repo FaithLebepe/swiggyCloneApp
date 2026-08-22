@@ -9,6 +9,7 @@ import { ItemComponent } from 'src/app/components/item/item.component';
 import { LoadingRestaurantComponent } from "src/app/components/loading-restaurant/loading-restaurant.component";
 import { RestaurantDetailComponent } from 'src/app/components/restaurant-detail/restaurant-detail.component';
 import { EmptyScreenComponent } from "src/app/components/empty-screen/empty-screen.component";
+import { Api } from 'src/app/services/api/api';
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
@@ -36,10 +37,15 @@ export class ItemsComponent  implements OnInit {
     title: 'No-Menu-Available'
   }
 
+  restaurants: any[] = [];
+  categories: any[] = []; 
+  allItems: any[] = [];
+
   constructor (
     private navCtrl: NavController,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private api:Api
   ) {
     addIcons({ star, removeOutline, addOutline, cartOutline });
   }
@@ -54,6 +60,10 @@ export class ItemsComponent  implements OnInit {
       this.id = paramMap.get('restaurantId');
       console.log('restaurantId: ', this.id);
 
+      this.restaurants = this.api.restaurantsItems;
+      this.categories = this.api.categories;
+      this.allItems = this.api.allItems;
+      
       this.getItems();
 
     });
@@ -177,111 +187,5 @@ export class ItemsComponent  implements OnInit {
       this.router.navigate([this.router.url + '/cart']);
     }
   }
-
-  
-
-  restaurants = [
-        {
-          uid: "12wefdss",
-          cover: 'assets/imgs/1.jpg',
-          name: 'Stayfit',
-          short_name: 'stayfit',
-          address: '123 Main St, City, Country',
-          cuisines: [
-            'Italian',
-            'Mexican'
-          ],
-          rating: 5,
-          delivery_time: 20,
-          price: 200,
-          serving: "Two"
-        },
-        {
-          uid: '12wefdefsdss',
-          cover: 'assets/imgs/2.jpg',
-          name: 'Dorys',
-          short_name: 'dorys',
-          address: '456 Elm St, City, Country',
-          cuisines: [
-            'Italian',
-            'Mexican'
-          ],
-          rating: 3.7,
-          delivery_time: 25,
-          price: 100,
-          serving: "One"
-        },
-        {
-          uid: '12wefdssrete',
-          cover: 'assets/imgs/3.jpg',
-          name: 'Rocomamas',
-          short_name: 'rocomamas',
-          address: '789 Oak St, City, Country',
-          cuisines: [
-            'Italian',
-            'Mexican'
-          ],
-          rating: 3.7,
-          delivery_time: 25,
-          price: 300,
-          serving: "Three"
-        },
-      ];
-
-
-  categories: any[] = [
-    {
-      id: "e00",
-      name: "Italian",
-      uid: "12wefdss"
-    },
-    {
-      id: "e0",
-      name: "Mexican",
-      uid: "12wefdss"
-    },
-  ]; 
-
-  allItems = [
-    {
-        category_id: "e00",
-        cover: "assets/imgs/pizza.jpg",
-        desc: "Great in taste",
-        id: "i1",
-        name: "Pizza",
-        price: 120,
-        rating: 0,
-        status: true,
-        uid: "12wefdss",
-        variation: false,
-        veg: false
-    },
-    {
-        category_id: "e0",
-        cover: "assets/imgs/salad.jpg",
-        desc: "Great in taste",
-        id: "i2",
-        name: "Caprese Salad",
-        price: 200,
-        rating: 0,
-        status: true,
-        uid: "12wefdss",
-        variation: false,
-        veg: true
-    },
-    {
-        category_id: "e00",
-        cover: "assets/imgs/pasta.jpg",
-        desc: "Great in taste",
-        id: "i3",
-        name: "Pasta",
-        price: 150.50,
-        rating: 0,
-        status: true,
-        uid: "12wefdss",
-        variation: false,
-        veg: false
-    },
-  ];
 
 }
